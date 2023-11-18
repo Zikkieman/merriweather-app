@@ -34,7 +34,7 @@ export const WeatherContext = createContext<WeatherContextType>({
 export default function WeatherProvider({ children }: ChildrenProps) {
   const [weatherData, setWeatherData] = useState<PropsArrayType>([]);
   const [status, setStatus] = useState("");
-  const [weatherUnit, setWeatherUnit] = useState("");
+  const [weatherUnit, setWeatherUnit] = useState("metric");
 
   const getWeatherData = async (cityName: string) => {
     const WeatherResponse = await fetch("/api/weather", {

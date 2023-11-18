@@ -8,7 +8,7 @@ type PropsType = {
 };
 
 export default function Settings({ onClose }: PropsType) {
-  const [defaultOption, setDefaultOption] = useState("");
+  const [defaultOption, setDefaultOption] = useState("metric");
 
   const weatherUnitCtx = useContext(WeatherContext);
 
