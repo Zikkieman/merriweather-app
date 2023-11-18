@@ -2,26 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.search-input {
+  min-width: 290px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+.weather-card {
+  width: 450px;
+  min-width: 340px;
+}
+
+.setting-card{
+  width: 450px;
+}
+
+.guide-h{
+  height: 100px
+}
+
+.preInfo-div {
+  height: 500px;
+}
+
+.hamburger {
+  top: 114px;
+  right: 0px;
+}
+
+
+/* .dropdown {
+  animation: dropdown 0.1s ease-out, bounce 0.5s ease-out;
+} */
+/* 
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-}
+  20% {
+    transform: translateY(5px);
+  }
+  40% {
+    transform: translateY(0px);
+  }
+  60% {
+    transform: translateY(10px);
+  }
+  80% {
+    transform: translateY(-2px);
+  }
+} */
