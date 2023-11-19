@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useContext } from "react";
 import HistoryNavbar from "../components/HistoryNavbar";
 import WeatherCard from "../components/WeatherCard";
-import { deleteWeather } from "../components/deleteWeather";
 import { v4 as uuidv4 } from "uuid";
+import { WeatherContext } from "../../../context/WeatherContext";
+import { toast } from "react-toastify";
 
 type AllPropsType = {
   cityName: string;
@@ -14,6 +15,10 @@ type AllPropsType = {
   skyCondition: string;
   _id: string;
   date: string;
+};
+
+type TypeId = {
+  _id: string;
 };
 
 type AllPropsArrayType = AllPropsType[];
@@ -33,20 +38,43 @@ function formattedDate({ date }: any) {
 }
 
 export default function History() {
-  const [allWeatherInfo, setAllWeatherInfo] = useState<AllPropsArrayType>([]);
+  const weatherCtx = useContext(WeatherContext);
+
   useEffect(() => {
     const getAllWeather = async () => {
       const allWeather = await fetch("/api/allweather");
       const allWeatherResponse = await allWeather.json();
-      setAllWeatherInfo(allWeatherResponse.message);
+      weatherCtx.getAllWeatherInfo(allWeatherResponse.message);
     };
     getAllWeather();
-  }, [allWeatherInfo]);
+  }, []);
+
+  const deleteWeather = async ({ _id }: TypeId) => {
+    try {
+      const deleteResponse = await fetch("/api/deleteweather", {
+        method: "POST",
+        body: JSON.stringify(_id),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const res = await deleteResponse.json();
+      if (res.message === "Successfully Deleted") {
+        weatherCtx.deleteWeatherInfo(_id)
+        toast(res.message, { position: "top-right", type: "success" });
+      } else {
+        toast(res.message, { position: "top-right", type: "error" });
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
 
   return (
     <div className="w-full">
       <HistoryNavbar />
-      {allWeatherInfo.length === 0 ? (
+      {weatherCtx.weatherState.length === 0 ? (
         <>
           <div className="flex justify-center items-center w-full py-2 mt-40">
             <p className="text-xl">No saved weather Information</p>
@@ -54,7 +82,7 @@ export default function History() {
         </>
       ) : (
         <>
-          {allWeatherInfo.map((data, index) => {
+          {weatherCtx.weatherState.map((data: any) => {
             return (
               <div key={uuidv4()} className="w-full h-full">
                 <WeatherCard

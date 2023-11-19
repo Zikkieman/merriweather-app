@@ -25,20 +25,20 @@ export async function POST(req: Request) {
   var year = parseInt(dateComponents[2], 10);
   var hour = parseInt(dateComponents[3], 10);
   var minute = parseInt(dateComponents[4], 10);
-  
+
   // Adjust for AM/PM
-  if (dateComponents[5].toLowerCase() === 'pm' && hour < 12) {
-      hour += 12;
+  if (dateComponents[5].toLowerCase() === "pm" && hour < 12) {
+    hour += 12;
   }
-  
+
   // Create a Date object
   var dateObject = new Date(year, month, day, hour, minute);
-  
+
   // Check if the date is valid
   if (isNaN(dateObject.getTime())) {
-      console.log("Invalid date");
+    console.log("Invalid date");
   } else {
-      console.log("Valid date:", dateObject);
+    console.log("Valid date:", dateObject);
   }
 
   try {
@@ -47,7 +47,10 @@ export async function POST(req: Request) {
       `mongodb+srv://exxcelservicess:${db_password}@cluster0.qxcsr2b.mongodb.net/merriwether?retryWrites=true&w=majority`
     );
 
-    const existingData = await Weather.findOne({ date: dateObject });
+    const existingData = await Weather.findOne({
+      date: dateObject,
+      cityName: cityName,
+    });
 
     if (existingData) {
       return NextResponse.json({ message: "This data already saved" });

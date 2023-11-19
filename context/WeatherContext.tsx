@@ -1,5 +1,5 @@
 "use client";
-import { createContext, useState, ReactNode, useEffect } from "react";
+import { createContext, useState, ReactNode, useReducer } from "react";
 
 type ChildrenProps = {
   children: ReactNode | ReactNode[];
@@ -16,38 +16,40 @@ type PropsType = {
 type PropsArrayType = PropsType[];
 
 export type WeatherContextType = {
-  status: string;
-  weatherData: PropsArrayType;
+  weatherState: any;
   weatherUnit: String;
-  getWeatherData: (cityName: string) => void;
   getWeatherUnit: (unit: string) => void;
+  getAllWeatherInfo: (allweather: any) => void;
+  deleteWeatherInfo: (_id: string) => void;
 };
 
 export const WeatherContext = createContext<WeatherContextType>({
-  status: "",
-  weatherData: [],
+  weatherState: [],
   weatherUnit: "",
-  getWeatherData: (cityName: string) => {},
   getWeatherUnit: (unit: string) => {},
+  getAllWeatherInfo: (allweather: any) => {},
+  deleteWeatherInfo: (_id: string) => {},
 });
 
-export default function WeatherProvider({ children }: ChildrenProps) {
-  const [weatherData, setWeatherData] = useState<PropsArrayType>([]);
-  const [status, setStatus] = useState("");
-  const [weatherUnit, setWeatherUnit] = useState("metric");
+const weatherReducer = (state: any, action: any) => {
+  switch (action.type) {
+    case "GET":
+      return [...action.payload];
+    case "DELETE":
+      return state.filter((weather: any) => {
+        return weather._id !== action.payload;
+      });
+    default:
+      return state;
+  }
+};
 
-  const getWeatherData = async (cityName: string) => {
-    const WeatherResponse = await fetch("/api/weather", {
-      method: "POST",
-      body: JSON.stringify(cityName),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const weatherRes = await WeatherResponse.json();
-    setWeatherData(weatherRes.message2);
-    setStatus(weatherRes.message1);
-  };
+export default function WeatherProvider({ children }: ChildrenProps) {
+  const [weatherState, dispatch] = useReducer(weatherReducer, []);
+  const [weatherUnit, setWeatherUnit] = useState("metric");
+  // const [storedWeather, setStoredWeather] = useState([]) as any;
+
+  // I want to use context to store all saved weather by tomorrow
 
   const getWeatherUnit = (unit: string) => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -57,14 +59,20 @@ export default function WeatherProvider({ children }: ChildrenProps) {
     }
   };
 
-  console.log(weatherUnit)
+  const getAllWeatherInfo = (allWeather: any) => {
+    dispatch({ type: "GET", payload: allWeather });
+  };
+
+  const deleteWeatherInfo = (_id: string) => {
+    dispatch({ type: "DELETE", payload: _id });
+  };
 
   const value = {
-    status: status,
-    weatherData: weatherData,
+    weatherState: weatherState,
     weatherUnit: weatherUnit,
-    getWeatherData,
     getWeatherUnit: getWeatherUnit,
+    getAllWeatherInfo,
+    deleteWeatherInfo,
   };
 
   return (
