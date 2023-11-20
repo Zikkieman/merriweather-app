@@ -28,6 +28,11 @@
   right: 0px;
 }
 
+input:focus {
+  outline: none; /* Remove default focus outline */
+  border: 2px solid /* Add your custom border style */
+  /* Add any other styles as needed */
+}
 
 /* .dropdown {
   animation: dropdown 0.1s ease-out, bounce 0.5s ease-out;

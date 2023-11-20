@@ -34,7 +34,8 @@ export const WeatherContext = createContext<WeatherContextType>({
 const weatherReducer = (state: any, action: any) => {
   switch (action.type) {
     case "GET":
-      return [...action.payload];
+      const inverted =  action.payload.slice().reverse();
+      return [...inverted];
     case "DELETE":
       return state.filter((weather: any) => {
         return weather._id !== action.payload;

@@ -74,7 +74,7 @@ export default function TextInput() {
             <input
               id="cityName"
               value={values.cityName}
-              className={`border-sky-500 border-2 p-2 rounded-l-md w-full`}
+              className={`border-sky-500 border-2 p-2 rounded-l-md w-full focus:border-sky-500`}
               placeholder="Enter city name"
               onChange={handleChange}
               onBlur={handleBlur}

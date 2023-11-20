@@ -40,6 +40,8 @@ function formattedDate({ date }: any) {
 export default function History() {
   const weatherCtx = useContext(WeatherContext);
 
+  
+
   useEffect(() => {
     const getAllWeather = async () => {
       const allWeather = await fetch("/api/allweather");
