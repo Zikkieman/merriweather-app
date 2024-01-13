@@ -5,7 +5,7 @@ import WeatherCard from "../components/WeatherCard";
 import ResultNavbar from "../components/resultNavbar";
 import { saveWeather } from "../components/saveWeather";
 import { v4 as uuidv4 } from "uuid";
-
+import Footer from "../components/footer";
 
 type PropsType = {
   cityName: string;
@@ -22,7 +22,7 @@ export type PropsArrayType = PropsType[];
 export default function WeatherResult() {
   const [weatherData, setWeatherData] = useState<PropsArrayType>([]);
   const [weatherArray, setweatherArray] = useState<PropsArrayType>([]);
-  const [time, setTime] = useState("")
+  const [time, setTime] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.localStorage) {
@@ -34,13 +34,12 @@ export default function WeatherResult() {
       setWeatherData(weatherData);
       const [weatherArrayInfo, time] = weatherData;
       setweatherArray(weatherArrayInfo);
-      setTime(time)
+      setTime(time);
     }
   }, []);
 
-
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen flex flex-col justify-between overflow-hidden">
       <ResultNavbar />
       <div className="h-3/4 w-full">
         {weatherArray.map((data) => {
@@ -62,6 +61,9 @@ export default function WeatherResult() {
             </div>
           );
         })}
+      </div>
+      <div className="">
+        <Footer />
       </div>
     </div>
   );

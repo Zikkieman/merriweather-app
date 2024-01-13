@@ -2,9 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-.search-input {
-  min-width: 290px;
+@media (max-width: 630px) {
+  .search-input {
+    width: 300px;
+  }
 }
+
 
 .weather-card {
   width: 450px;

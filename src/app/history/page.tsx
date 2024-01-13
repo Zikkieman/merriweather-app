@@ -5,6 +5,7 @@ import WeatherCard from "../components/WeatherCard";
 import { v4 as uuidv4 } from "uuid";
 import { WeatherContext } from "../../../context/WeatherContext";
 import { toast } from "react-toastify";
+import Footer from "../components/footer";
 
 type AllPropsType = {
   cityName: string;
@@ -40,8 +41,6 @@ function formattedDate({ date }: any) {
 export default function History() {
   const weatherCtx = useContext(WeatherContext);
 
-  
-
   useEffect(() => {
     const getAllWeather = async () => {
       const allWeather = await fetch("/api/allweather");
@@ -62,49 +61,53 @@ export default function History() {
       });
       const res = await deleteResponse.json();
       if (res.message === "Successfully Deleted") {
-        weatherCtx.deleteWeatherInfo(_id)
+        weatherCtx.deleteWeatherInfo(_id);
         toast(res.message, { position: "top-right", type: "success" });
       } else {
         toast(res.message, { position: "top-right", type: "error" });
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
 
-
   return (
-    <div className="w-full">
-      <HistoryNavbar />
-      {weatherCtx.weatherState.length === 0 ? (
-        <>
+    <div className="w-full flex flex-col h-screen overflow-hidden">
+      <div className="fixed top-0 w-full z-10">
+        <HistoryNavbar />
+      </div>
+
+      <div className="flex-1 overflow-auto my-28">
+       
+        {weatherCtx.weatherState.length === 0 ? (
           <div className="flex justify-center items-center w-full py-2 mt-40">
-            <p className="text-xl">No saved weather Information</p>
+            <p className="text-2xl">No saved weather information</p>
           </div>
-        </>
-      ) : (
-        <>
-          {weatherCtx.weatherState.map((data: any) => {
-            return (
-              <div key={uuidv4()} className="w-full h-full">
-                <WeatherCard
-                  cityName={data.cityName}
-                  icon={data.icon}
-                  temperature={data.temperature}
-                  description={data.description}
-                  countryCode={data.countryCode}
-                  skyCondition={data.skyCondition}
-                  time={formattedDate(data)}
-                  button="Delete"
-                  buttonAction={() => {
-                    deleteWeather(data);
-                  }}
-                />
-              </div>
-            );
-          })}
-        </>
-      )}
+        ) : (
+          <div className="">
+            {weatherCtx.weatherState.map((data: any) => (
+              <WeatherCard
+                key={uuidv4()}
+                cityName={data.cityName}
+                icon={data.icon}
+                temperature={data.temperature}
+                description={data.description}
+                countryCode={data.countryCode}
+                skyCondition={data.skyCondition}
+                time={formattedDate(data)}
+                button="Delete"
+                buttonAction={() => {
+                  deleteWeather(data);
+                }}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div className="fixed bottom-0 w-full z-10">
+        <Footer />
+      </div>
     </div>
   );
 }

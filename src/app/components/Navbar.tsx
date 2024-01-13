@@ -28,7 +28,7 @@ export default function NavigationBar() {
 
   return (
     <>
-      <div className="flex w-full bg-sky-300 justify-between py-10 px-96 max-md:px-6 max-xl:px-20">
+      <div className="flex w-full bg-sky-300 justify-between py-10 md:px-6 max-md:px-6 lg:px-16 xl:px-48 2xl:px-72 ">
         <div
           className="flex-1
        text-3xl max-md:text-xl text-white"

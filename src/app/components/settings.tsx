@@ -29,13 +29,13 @@ export default function Settings({ onClose }: PropsType) {
   }, [defaultOption, weatherUnitCtx.weatherUnit]);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-sky-100 ">
+    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-sky-100 z-10">
       <IoCloseOutline
         className="absolute top-2 right-2 cursor-pointer text-sky-500 hover:text-sky-700 mt-16 mr-40 max-md:mt-6 max-md:mr-8"
         size={40}
         onClick={handleClose}
       />
-      <div className="w-1/4 bg-white rounded-lg shadow-lg h-60 relative setting-card m-2">
+      <div className="w-1/4 bg-white rounded-lg shadow-lg h-60 relative setting-card m-2 z-20">
         <div className="ml-4 mt-4">
           <label className="block mb-1">Select Temperature Unit</label>
           <select
