@@ -12,7 +12,7 @@ export default function Guide({ onClose }: PropsType) {
 
   return (
     <div>
-      <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-sky-100">
+      <div className=" fixed top-0 left-0 w-full h-full flex items-center justify-center bg-opacity-70 bg-sky-100 z-50">
         <IoCloseOutline
           className="absolute top-2 right-2 cursor-pointer text-sky-500 hover:text-sky-700 mt-16 mr-40 max-md:mt-6 max-md:mr-8"
           size={40}
